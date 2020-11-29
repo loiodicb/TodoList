@@ -1,0 +1,52 @@
+<section class="todoapp">
+  <header class="header">
+    <h1>{{label}}Todos</h1>
+    <button class="clear-completed" (click)="generateQrCode()">QRcode</button>
+    <img src="../../assets/images/micro.jpg" class="clear-completed start" (click)="start()" alt="micro logo">
+    <!-- <button class="clear-completed start" (click)="start()">start</button> -->
+    <button class="clear-completed stop" (click)="stop()">stop</button>
+    <form (submit)="appendItem(newTodoInput.value); newTodoInput.value='' ">
+      <input  #newTodoInput
+              name        = "newTodoInput"
+              class       = "new-todo"
+              placeholder = "Que faire?"
+              [value] = "message"
+              autocomplete = "off"
+              autofocus 
+              />
+    </form>
+  </header>
+  <section class="main">
+    <input  class="toggle-all"
+            type="checkbox"
+            name="toggleAll"
+    />
+    <ul class="todo-list">
+      <li *ngFor="let item of todoList.items" [class.completed]="item.isDone">        
+        <app-todo-item [item]="item" *ngIf="item.isShow"></app-todo-item>
+      </li>
+    </ul>
+  </section>
+  <footer class="footer">
+    <span class="todo-count"><strong>{{compteur()}}</strong> restantes</span>
+    <ul class="filters">
+      <li>
+        <a class="filterAll" (click)="itemAll()">Tous</a>
+      </li>
+      <li>
+        <a class="filterActives" (click)="itemActive()">Actifs</a>
+      </li>
+      <li>
+        <a class="filterCompleted" (click)="itemComplete()">Complétés</a>
+      </li>
+      <li>
+        <button class="clear" (click)="erasedAll()">Tout suppr</button>
+      </li>  
+    </ul>
+    <button class="clear-completed" (click)="itemSupp()">Supprimer cochées</button>
+
+  </footer>
+</section>
+<hr/>
+<!-- //Display the QrCode while we generate it -->
+<qrcode [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
