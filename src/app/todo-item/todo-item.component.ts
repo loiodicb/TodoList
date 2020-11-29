@@ -1,6 +1,8 @@
-import {Component, OnInit} Input, ViewChild, ElementRef  } from '@angular/core';
 import { TodoItemData } from '../dataTypes/TodoItemData';
 import { TodoService } from '../todo.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Input } from '@angular/core';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-todo-item',
@@ -9,7 +11,7 @@ import { TodoService } from '../todo.service';
 })
 
 export class TodoItemComponent implements OnInit {
-
+  
   @Input() private data: TodoItemData;
   @ViewChild("newTextInput", { static: false }) private inputLabel: ElementRef;
 
@@ -47,5 +49,5 @@ export class TodoItemComponent implements OnInit {
   destroy() {
     this.todoService.removeItems(this.data);
   }
-
+  
 }

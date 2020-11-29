@@ -3,8 +3,8 @@ import {TodoListData} from '../dataTypes/TodoListData';
 import {TodoItemData} from '../dataTypes/TodoItemData';
 import {TodoService} from '../todo.service';
 import { JsonPipe } from '@angular/common';
-import { VoiceRecognitionService } from '../voice-recognition.service';
 import { isEmpty } from 'rxjs-compat/operator/isEmpty';
+import { VoiceRecognitionService } from '../service/voice-recognition.service';
 
 @Component({
     selector: 'app-todo-list',
@@ -43,7 +43,7 @@ export class TodoListComponent implements OnInit {
         
     }
     itemSupp(){
-        this.todoService.removeDoneItems();
+        this.todoService.removeItems();
     }
 
     itemActive(){
