@@ -2,9 +2,10 @@
   <header class="header">
     <h1>{{label}}</h1>
     <button class="clear-completed" (click)="generateQrCode()">QRcode</button>
-    <img src="../../assets/images/micro.jpg" class="clear-completed start" (click)="start()" alt="micro logo">
+    <img src="../../assets/images/micro.png" class="clear-completed start" (click)="start()" alt="micro logo">
+    <img src="../../assets/images/micro-off.png" class="clear-completed stop" (click)="stop()" alt="micro-off logo">
     <!-- <button class="clear-completed start" (click)="start()">start</button> -->
-    <button class="clear-completed stop" (click)="stop()">stop</button>
+    <!-- <button class="clear-completed stop" (click)="stop()">stop</button> -->
     <form (submit)="appendItem(newTodoInput.value); newTodoInput.value='' ">
       <input  #newTodoInput
               name        = "newTodoInput"
@@ -49,4 +50,5 @@
 </section>
 <hr/>
 <!-- //Display the QrCode while we generate it -->
+<!-- <qrcode [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'M'"></qrcode> -->
 <qrcode [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>

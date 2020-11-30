@@ -46,4 +46,13 @@ export class TodoService {
     });
   }
 
+  removeItemsDone() {
+    const tdl = this.todoListSubject.getValue();
+    this.todoListSubject.next( {
+      label: tdl.label, // ou on peut écrire: ...tdl,
+      items: tdl.items.filter( I => I.isDone === false)
+    });
+  
+  }
+
 }

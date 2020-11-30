@@ -12,7 +12,7 @@ import { from } from 'rxjs';
 
 export class TodoItemComponent implements OnInit {
   
-  @Input() private data: TodoItemData;
+  @Input() private item: TodoItemData;
   @ViewChild("newTextInput", { static: false }) private inputLabel: ElementRef;
 
   private _editionMode = false;
@@ -31,23 +31,23 @@ export class TodoItemComponent implements OnInit {
   }
 
   get label(): string {
-    return this.data.label;
+    return this.item.label;
   }
 
   set label(lab: string) {
-    this.todoService.setItemsLabel(lab, this.data);
+    this.todoService.setItemsLabel(lab, this.item);
   }
 
   get isDone(): boolean {
-    return this.data.isDone;
+    return this.item.isDone;
   }
 
-  set isDone(done: boolean) {
-    this.todoService.setItemsDone(done, this.data);
+  itemDone(item: TodoItemData, done: boolean) {
+    this.todoService.setItemsDone(done, item);
   }
 
-  destroy() {
-    this.todoService.removeItems(this.data);
+  itemDelete() {
+    this.todoService.removeItems(this.item);
   }
   
 }

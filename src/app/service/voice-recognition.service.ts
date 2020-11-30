@@ -18,7 +18,7 @@ export class VoiceRecognitionService {
   init() {
 
     this.recognition.interimResults = true;
-    this.recognition.lang = 'en-US';
+    this.recognition.lang = 'fr-FR';
 
     this.recognition.addEventListener('result', (e) => {
       const transcript = Array.from(e.results)
@@ -52,7 +52,7 @@ export class VoiceRecognitionService {
   }
 
   wordConcat() {
-    this.text = this.text + ' ' + this.tempWords + '.';
+    this.text = this.text + ' ' + this.tempWords;
     this.tempWords = '';
   }
 }

@@ -46,7 +46,8 @@ export class TodoListComponent implements OnInit {
         
     }
     itemSupp(){
-        this.todoService.removeItems();
+        // this.todoService.removeItems();
+        this.todoService.removeItemsDone();
     }
 
     itemActive(){
@@ -56,7 +57,7 @@ export class TodoListComponent implements OnInit {
         else{I.isShow=true;}
 
         });
-        
+        console.log("Item Active",this.todoList.items);
     }
 
     itemAll(){
@@ -95,11 +96,11 @@ export class TodoListComponent implements OnInit {
         if(this.voiceRecognition.text != ""){
             this.appendItem(this.voiceRecognition.text);
             console.log("6 :",this.voiceRecognition.text);
-            // this.message = this.voiceRecognition.text;
+            this.message = this.voiceRecognition.tempWords;
         }else{
             console.log("variable empty");
         }
-        this.voiceRecognition.text = "";
-        this.message = "";
+        // this.voiceRecognition.text = "";
+        // this.message = "";
       }
 }
