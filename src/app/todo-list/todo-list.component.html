@@ -1,11 +1,12 @@
 <section class="todoapp">
   <header class="header">
     <h1>{{label}}</h1>
-    <button class="clear-completed" (click)="generateQrCode()">QRcode</button>
+    <!-- <button class="clear-completed" (click)="generateQrCode()">QRcode</button> -->
+    <img src="../../assets/images/qrcode.png" class="clear-completed qrcode" (click)="generateQrCode()" alt="QRcode logo">
+    <img src="../../assets/images/undo.png" class="clear-completed undo" (click)="undo()" alt="undo logo">
+    <img src="../../assets/images/redo.png" class="clear-completed redo" (click)="redo()" alt="redo logo">
     <img src="../../assets/images/micro.png" class="clear-completed start" (click)="start()" alt="micro logo">
     <img src="../../assets/images/micro-off.png" class="clear-completed stop" (click)="stop()" alt="micro-off logo">
-    <!-- <button class="clear-completed start" (click)="start()">start</button> -->
-    <!-- <button class="clear-completed stop" (click)="stop()">stop</button> -->
     <form (submit)="appendItem(newTodoInput.value); newTodoInput.value='' ">
       <input  #newTodoInput
               name        = "newTodoInput"
@@ -49,6 +50,4 @@
   </footer>
 </section>
 <hr/>
-<!-- //Display the QrCode while we generate it -->
-<!-- <qrcode [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'M'"></qrcode> -->
 <qrcode [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
