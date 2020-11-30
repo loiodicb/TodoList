@@ -19,7 +19,12 @@ export class TodoListComponent implements OnInit {
     public message : string = "";
     
     constructor(private todoService: TodoService, private voiceRecognition: VoiceRecognitionService){
-        todoService.getTodoListDataObservable().subscribe( tdl => this.todoList = tdl );
+        this.localStorageTodolist()
+        todoService.getTodoListDataObservable().subscribe( 
+            tdl => {
+                this.todoList = tdl;
+                localStorage.setItem("todolist",JSON.stringify(this.items));
+            });
         this.myAngularxQrCode = "";
         this.voiceRecognition.init();
         
@@ -35,15 +40,14 @@ export class TodoListComponent implements OnInit {
     get items(): TodoItemData[] {
         return this.todoList.items;
     }
-    appendItem(label: string){
+    appendItem(label: string, isDone: boolean = false){
         if(label != ""){
             this.todoService.appendItems({
                 label,
-                isDone:false,
+                isDone:isDone,
                 isShow: true
             });
         }
-        
     }
     itemSupp(){
         // this.todoService.removeItems();
@@ -81,7 +85,12 @@ export class TodoListComponent implements OnInit {
     erasedAll(){
         this.todoList.items.forEach(I =>this.todoService.removeItems(I));
     }
-
+    localStorageTodolist(){
+        let nom = localStorage.getItem("todolist");
+        if(nom != ""){
+            JSON.parse(nom).forEach(I => this.appendItem(I.label, I.isDone));
+        }
+    }
     generateQrCode(){
         this.myAngularxQrCode = JSON.stringify(this.todoList.items);
         console.log(this.myAngularxQrCode);
@@ -100,7 +109,7 @@ export class TodoListComponent implements OnInit {
         }else{
             console.log("variable empty");
         }
-        // this.voiceRecognition.text = "";
-        // this.message = "";
+        this.voiceRecognition.text = "";
+        this.message = "";
       }
 }
