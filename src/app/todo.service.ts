@@ -18,7 +18,7 @@ export class TodoService {
     const tdl = this.todoListSubject.getValue();
     this.todoListSubject.next( {
       label: tdl.label,
-      items: tdl.items.map( I => items.indexOf(I) === -1 ? I : ({label, isDone: I.isDone}) )
+      items: tdl.items.map( I => items.indexOf(I) === -1 ? I : ({label, isDone: I.isDone, isShow: I.isShow}) )
     });
   }
 
@@ -26,7 +26,7 @@ export class TodoService {
     const tdl = this.todoListSubject.getValue();
     this.todoListSubject.next( {
       label: tdl.label,
-      items: tdl.items.map( I => items.indexOf(I) === -1 ? I : ({label: I.label, isDone}) )
+      items: tdl.items.map( I => items.indexOf(I) === -1 ? I : ({label: I.label, isDone, isShow: I.isShow}) )
     });
   }
 

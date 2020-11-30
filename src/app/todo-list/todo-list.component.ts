@@ -28,6 +28,9 @@ export class TodoListComponent implements OnInit {
     ngOnInit() {
     }
  
+    get label(): string {
+        return this.todoList.label;
+    }
     
     get items(): TodoItemData[] {
         return this.todoList.items;
