@@ -22,6 +22,7 @@
     <input  class="toggle-all"
             type="checkbox"
             name="toggleAll"
+            (click)="selectAll()"
     />
     <ul class="todo-list">
       <li *ngFor="let item of todoList.items" [class.completed]="item.isDone">        
@@ -50,4 +51,5 @@
   </footer>
 </section>
 <hr/>
+<!-- GEnerer un QRCode -->
 <qrcode [qrdata]="myAngularxQrCode" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>

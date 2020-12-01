@@ -17,6 +17,8 @@ export class TodoListComponent implements OnInit {
     private todoList: TodoListData;
     public myAngularxQrCode: string = "";
     public message : string = "";
+    public events :  Array<TodoListData>;
+    public position: number;
     
     constructor(private todoService: TodoService, private voiceRecognition: VoiceRecognitionService){
         this.localStorageTodolist()
@@ -31,6 +33,10 @@ export class TodoListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.events = JSON.parse(localStorage.getItem("events")) || [];
+        this.position = this.events.length - 1;
+        console.log(this.position);
+
     }
  
     get label(): string {
@@ -40,7 +46,7 @@ export class TodoListComponent implements OnInit {
     get items(): TodoItemData[] {
         return this.todoList.items;
     }
-    appendItem(label: string, isDone: boolean = false){
+    appendItem(label: string, isDone: boolean = false, fromLocalStorage: boolean = false){
         if(label != ""){
             this.todoService.appendItems({
                 label,
@@ -48,10 +54,15 @@ export class TodoListComponent implements OnInit {
                 isShow: true
             });
         }
+        if(!fromLocalStorage){
+            this.addEvent();
+        }
+        
     }
     itemSupp(){
         // this.todoService.removeItems();
         this.todoService.removeItemsDone();
+        this.addEvent();
     }
 
     itemActive(){
@@ -82,14 +93,25 @@ export class TodoListComponent implements OnInit {
         return this.todoList.items.length - this.todoList.items.filter(I =>I.isDone==true).length;
     }
     
+    selectAll(){
+    var service = this;
+        this.todoList.items.forEach(I => 
+            {if(I.isDone==false)
+                service.todoService.setItemsDone(I.isDone = true);
+            });
+    }
+
     erasedAll(){
         this.todoList.items.forEach(I =>this.todoService.removeItems(I));
+        this.addEvent();
     }
+
     localStorageTodolist(){
         let nom = localStorage.getItem("todolist");
-        if(nom != ""){
-            JSON.parse(nom).forEach(I => this.appendItem(I.label, I.isDone));
+        if(nom != "" && nom != null){
+            JSON.parse(nom).forEach(I => this.appendItem(I.label, I.isDone, true));
         }
+        
     }
     generateQrCode(){
         this.myAngularxQrCode = JSON.stringify(this.todoList.items);
@@ -112,4 +134,47 @@ export class TodoListComponent implements OnInit {
         this.voiceRecognition.text = "";
         this.message = "";
       }
+    
+    addEvent(){
+        
+        // get list of events I stored
+        this.events = JSON.parse(localStorage.getItem("events")) || [];
+        // add current todolist  to the var events
+        this.events.push(this.todoList);
+        if(this.events != null){
+            // set the key events  with the new list inside the local strorage
+            localStorage.setItem("events",JSON.stringify(this.events));
+        }
+       
+        console.log(this.events);
+        this.position = this.events.length - 1;
+    }
+    undo(){
+        // get my list of events
+        this.events = JSON.parse(localStorage.getItem("events")) || [];
+        this.position = this.position -1;
+        if(this.position >= 0){
+            var event = this.events[this.position];
+            console.log(event);
+            this.todoList.items =event.items;
+        }
+    }
+
+    redo(){
+        // get my list of events
+        this.events = JSON.parse(localStorage.getItem("events")) || [];
+        // add 1 to the position to move into the array
+        this.position = this.position + 1;
+        console.log(this.position)
+        if(this.position <= this.events.length -1){
+            var event = this.events[this.position];
+            console.log(event);
+            // add the last Item removed in the list 
+            this.todoList.items = event.items;
+        }else{
+            console.log("It can't be greater than the lenght of this.event")
+        } 
+        console.log(this.position)
+        console.log(this.events)
+    }
 }
