@@ -328,6 +328,7 @@ label[for='toggle-all'] {
   width:20px;
   height:20px;
 }
+/* Placing the Qrcode icon button */
 .qrcode{
   margin-top: 2px;
   margin-bottom: 2px;
@@ -336,6 +337,7 @@ label[for='toggle-all'] {
   width:20px;
   height:20px;
 }
+/* Placing undo icon button */
 .undo{
   margin-top: 2px;
   margin-bottom: 2px;
@@ -345,6 +347,7 @@ label[for='toggle-all'] {
   width:20px;
   height:20px;
 }
+/* Placing redo icon button */
 .redo{
   margin-top: 2px;
   margin-bottom: 2px;

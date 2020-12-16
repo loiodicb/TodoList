@@ -1,5 +1,23 @@
 # PWA-TP3
 
+Bryan Loiodice Project Todolist
+Fonctionality implemented
+* Effacer Tout
+* Copie de listes par QR-code
+* Sérialisation / désérialisation des données localement (Local Storage) - Pour sauvegarder les données localement
+* Undo / Redo (Annuler / Refaire)
+
+## Depedencies
+Project GitHub is here :
+```console
+git clone https://github.com/loiodicb/Todolist.git
+```
+To run the project the library for the QrCode is needed 
+Download this :
+```console
+npm install angularx-qrcode@~2.1.4 --save
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -73,3 +91,7 @@ During the development of this function while the convertion I was not able to s
 I tried to print the todoList.items and a **object** was printed. I needed to be sure of what was really sent to generate the QRcode.
 After some research I need to decode the todolist.items with the function **JSON.stringify()** to convert a Javascript Object String value into a string.
 After this I was able to see the modification when I was adding value and generate a new QrCode.
+
+# Local Storage
+
+# Undo/Redo

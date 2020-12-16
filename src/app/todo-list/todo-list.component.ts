@@ -33,6 +33,7 @@ export class TodoListComponent implements OnInit {
     }
 
     ngOnInit() {
+        // local storage initialisation to get the list from the local storage
         this.events = JSON.parse(localStorage.getItem("events")) || [];
         this.position = this.events.length - 1;
         console.log(this.position);
@@ -46,6 +47,13 @@ export class TodoListComponent implements OnInit {
     get items(): TodoItemData[] {
         return this.todoList.items;
     }
+/*
+    Method appendItem() 
+    Append an item in the list ang give a status true false in parameters
+    isDone: boolean
+    label: string
+    and add a copy inside the local storage
+*/ 
     appendItem(label: string, isDone: boolean = false, fromLocalStorage: boolean = false){
         if(label != ""){
             this.todoService.appendItems({
@@ -59,12 +67,22 @@ export class TodoListComponent implements OnInit {
         }
         
     }
+
+/*
+    Method itemSupp() 
+    This methode will delete from the list only the element
+    whos has been checked on the list of todolist
+*/ 
+    
     itemSupp(){
-        // this.todoService.removeItems();
         this.todoService.removeItemsDone();
         this.addEvent();
     }
-
+/*
+    Method itemActive()
+    In the tab "Actifs" it look if in the list one or severals words or checked 
+    if yes I hide the element checked
+*/ 
     itemActive(){
        this.todoList.items.forEach(I => 
         {if(I.isDone==true)
@@ -74,11 +92,20 @@ export class TodoListComponent implements OnInit {
         });
         console.log("Item Active",this.todoList.items);
     }
-
+/*
+    Method itemAll()
+    In the tab "Tous" we are displaying all the element in present 
+    in the list checked or not
+*/ 
     itemAll(){
         this.todoList.items.forEach(I =>I.isShow=true);
      }
-    
+
+/*
+    Method itemComplete()
+    In the tab "Complétés" it will appear only the element
+     who has been checked in the list
+*/ 
     itemComplete(){
         this.todoList.items.forEach(I => 
         {if(I.isDone==true)
@@ -89,23 +116,47 @@ export class TodoListComponent implements OnInit {
         });
          
     }
+/*
+    Method compteur()
+    In the bottom left there is a label  "restates" we display just before this label
+    the number of element is not checked/complete
+*/ 
     compteur(){
         return this.todoList.items.length - this.todoList.items.filter(I =>I.isDone==true).length;
     }
-    
+/*
+    Method selectAll(
+    In the left side where we typy the task we want to add a new task 
+    there is a small arrow going down. I use this arrow to select/deselect 
+    all the element in the list even if one element of the list is already selected
+    I give in a forEach the list of all items or at true to don't deselect any items
+*/ 
     selectAll(){
     var service = this;
+    // Check the status of all the items
+    var checkAllSelected = this.items.every(I => I.isDone);
         this.todoList.items.forEach(I => 
-            {if(I.isDone==false)
+            {if(checkAllSelected == false){
                 service.todoService.setItemsDone(I.isDone = true);
+            }
+            else{
+                service.todoService.setItemsDone(I.isDone = false);
+            }
             });
     }
-
+/*
+    Method erasedAll()
+    if we click on the button "Tout suppr" 
+    it will delete all the element in the list doesn't matter the status
+*/ 
     erasedAll(){
         this.todoList.items.forEach(I =>this.todoService.removeItems(I));
         this.addEvent();
     }
-
+/*
+    Method localStorageTodolist()()
+    we store all the element we added inside the local storage 
+*/ 
     localStorageTodolist(){
         let nom = localStorage.getItem("todolist");
         if(nom != "" && nom != null){
@@ -113,15 +164,29 @@ export class TodoListComponent implements OnInit {
         }
         
     }
+/*
+    Method generateQrCode()
+    while we click on the top right button with the QrCode icone
+    it will generate a QrCode of all the element present inside the list 
+*/ 
     generateQrCode(){
         this.myAngularxQrCode = JSON.stringify(this.todoList.items);
         console.log(this.myAngularxQrCode);
     }
 
+/*
+    Method start()
+   this methode start the service voice-recognition to listen
+    and interpret the words who someone say
+*/ 
     start() {
         this.voiceRecognition.start();
     }
-    
+/*
+   Method stop()
+   this methode stop the service voice-recognition and 
+   concat the word and add it to the list of items
+*/ 
     stop(){
         this.voiceRecognition.stop();
         if(this.voiceRecognition.text != ""){
@@ -134,9 +199,8 @@ export class TodoListComponent implements OnInit {
         this.voiceRecognition.text = "";
         this.message = "";
       }
-    
+
     addEvent(){
-        
         // get list of events I stored
         this.events = JSON.parse(localStorage.getItem("events")) || [];
         // add current todolist  to the var events
@@ -149,6 +213,12 @@ export class TodoListComponent implements OnInit {
         console.log(this.events);
         this.position = this.events.length - 1;
     }
+
+/*
+   Method undo()
+   this methode go to search the previous element being deleted in the list.
+   we get this last element with the local storage
+*/ 
     undo(){
         // get my list of events
         this.events = JSON.parse(localStorage.getItem("events")) || [];
@@ -159,7 +229,10 @@ export class TodoListComponent implements OnInit {
             this.todoList.items =event.items;
         }
     }
-
+/*
+   Method redo()
+     this methode go to search the last state of the list with the local storage
+*/ 
     redo(){
         // get my list of events
         this.events = JSON.parse(localStorage.getItem("events")) || [];
