@@ -4,6 +4,7 @@ Bryan Loiodice Project Todolist
 Fonctionality implemented
 * Effacer Tout
 * Copie de listes par QR-code
+* Voice Recognition
 * Sérialisation / désérialisation des données localement (Local Storage) - Pour sauvegarder les données localement
 * Undo / Redo (Annuler / Refaire)
 
@@ -53,7 +54,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Functionality
 
 # erasedAll()
-the fonction erased all use the function removeItems() to erase all the elements inside the todoList.items using a forEach to go through all the items. a button with a click event has is connect to use the function with the web Interface.
+
+The fonction erased all use the function removeItems() to erase all the elements inside the todoList.items using a forEach to go through all the items. a button with a click event has is connect to use the function with the web Interface.
 
 '''angular
   erasedAll(){
@@ -62,6 +64,7 @@ the fonction erased all use the function removeItems() to erase all the elements
 '''
 
 # generateQrCode()
+
 The source to execute the procedure can be follwed by this link : [Angular CLI README](https://www.npmjs.com/package/angularx-qrcode).
 
 To replicate this function we need first to do the good import:
@@ -94,13 +97,25 @@ and finally I add a controler to create the QrCode.
 ```
 
 ## Problem/Solution
+
 During the development of this function while the convertion I was not able to see which value was inside the todoList.items, because while I was try to print the contents of my variable the QRCode generated was not changing.
 
 I tried to print the todoList.items and a **object** was printed. I needed to be sure of what was really sent to generate the QRcode.
 After some research I need to decode the todolist.items with the function **JSON.stringify()** to convert a Javascript Object String value into a string.
 After this I was able to see the modification when I was adding value and generate a new QrCode.
 
+# Voice Recognition
+
+I created a service with voice-recognition.service.ts
+With inside the detailed of the 3 functions start(), stop(), wordConcat()
+this method are use to start and stop the microphone and concate the words said in the microphone and interpret it
+
+clicking on the icone of the microphone run the methode start() and make it run the microphone when you finish to talk
+we need to talk to other button with icone of the microphone crossed.
+then the word will be added automatically to the list of todolist
+
 # Local Storage
+
 I added a variable in the constructor of the files todo-list.component.ts
 ```angular
 localStorage.setItem("todolist",JSON.stringify(this.items));
@@ -112,12 +127,14 @@ I created the function localStorageTodolist() who will
 get the item from the todo list and store it
 
 # Undo/Redo
+
 To put in place the fucnction undo() and redo() I use the advantage of the local storage I implements before.
 
 Which is check the the last state of the local storage and the last element and moving like size inside
 I can get the list and restauring the previous or next states.
 
 ## Problem 
+
 It has been complicated to move inside the local storage and taking the last element,
 but after that it was easy to do the redo() function.
 
