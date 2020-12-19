@@ -7,6 +7,14 @@ Fonctionality implemented
 * Sérialisation / désérialisation des données localement (Local Storage) - Pour sauvegarder les données localement
 * Undo / Redo (Annuler / Refaire)
 
+I didn't try with mac os so I can't know if you could run the project on it, because it has been only developped on windows 10
+and it works with the version of Angular 8
+
+## Problems
+I commit my project but it was corrupted by a library I used the LFS Large File System.
+Because I didn't setup properly the .gitignore file and with git desktop we search to push the modules
+and it's like that I get my files corupted and while I pulled my files I deleted all the git folder and recreate one.
+
 ## Depedencies
 Project GitHub is here :
 ```console
@@ -93,5 +101,23 @@ After some research I need to decode the todolist.items with the function **JSON
 After this I was able to see the modification when I was adding value and generate a new QrCode.
 
 # Local Storage
+I added a variable in the constructor of the files todo-list.component.ts
+```angular
+localStorage.setItem("todolist",JSON.stringify(this.items));
+```
+Then I initialized an event it the function ngOnInit() 
+to get the modification at every new entree inside the todolist
+
+I created the function localStorageTodolist() who will
+get the item from the todo list and store it
 
 # Undo/Redo
+To put in place the fucnction undo() and redo() I use the advantage of the local storage I implements before.
+
+Which is check the the last state of the local storage and the last element and moving like size inside
+I can get the list and restauring the previous or next states.
+
+## Problem 
+It has been complicated to move inside the local storage and taking the last element,
+but after that it was easy to do the redo() function.
+
